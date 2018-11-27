@@ -23,6 +23,7 @@ if __name__ == '__main__':
     parent_conn, child_conn = Pipe(duplex=True)
     p = Process(target=myprocess, args=(child_conn,))
     p.start()
+    print(p.pid)
     while True:
         time.sleep(0.1)
 
@@ -34,4 +35,6 @@ if __name__ == '__main__':
         if parent_conn.poll():
             data_from_child = parent_conn.recv()
             print('received from child', data_from_child)
+            print(p)
+            p.terminate()
     p.join()
